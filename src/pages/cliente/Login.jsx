@@ -12,6 +12,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const usuario = await login(email, senha)
+
       if (usuario.role === "admin") navigate("/admin/restaurantes")
       else if (usuario.role === "restaurante") navigate("/admin/restaurantes")
       else navigate("/")
@@ -21,93 +22,130 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#F5F5F5" }}>
-
-      {/* Topo laranja - 40% da tela */}
+    <div
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{
+        background: "linear-gradient(135deg, #F5F5F5 0%, #EDE6E1 100%)",
+      }}
+    >
       <div
-        className="flex flex-col items-center justify-center gap-3"
+        className="w-full max-w-md rounded-[2.5rem] p-8"
         style={{
-          backgroundColor: "#C0622B",
-          height: "40vh",
-          borderBottomLeftRadius: "2.5rem",
-          borderBottomRightRadius: "2.5rem",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 20px 50px rgba(0,0,0,0.12)",
         }}
       >
-        <span style={{ fontSize: "4rem" }}>🍴</span>
-        <h1 className="text-white font-bold" style={{ fontSize: "2rem" }}>
-          Praça Virtual
-        </h1>
-      </div>
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-8">
+          <div
+            className="w-20 h-20 rounded-full flex items-center justify-center shadow-md"
+            style={{
+              background: "linear-gradient(135deg, #C0622B, #A94F20)",
+            }}
+          >
+            <span className="text-4xl">🍴</span>
+          </div>
 
-      {/* Card do formulário */}
-      <div className="flex flex-col items-center px-6 mt-[-3rem]">
+          <h1
+            className="mt-4 font-bold text-3xl"
+            style={{ color: "#2D2D2D" }}
+          >
+            Praça Virtual
+          </h1>
+
+          <p className="text-sm mt-2" style={{ color: "#777" }}>
+            Faça login para continuar
+          </p>
+        </div>
+
+        {/* Erro */}
+        {erro && (
+          <div
+            className="mb-4 text-center text-sm py-3 rounded-2xl"
+            style={{
+              backgroundColor: "#FFEAEA",
+              color: "#D63C3C",
+            }}
+          >
+            {erro}
+          </div>
+        )}
+
+        {/* Campo Email */}
         <div
-          className="w-full max-w-sm rounded-3xl p-8 flex flex-col gap-4"
+          className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
           style={{
-            backgroundColor: "#ffffff",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.10)",
+            backgroundColor: "#F8F8F8",
+            border: "1px solid #E5E5E5",
           }}
         >
-          {/* Ícone de usuário */}
-          <div className="flex justify-center mb-2">
-            <div
-              className="flex items-center justify-center rounded-full"
-              style={{
-                width: "80px",
-                height: "80px",
-                backgroundColor: "#E8E8E8",
-              }}
-            >
-              <span style={{ fontSize: "2.5rem" }}>👤</span>
-            </div>
-          </div>
+          <span className="text-lg">👤</span>
 
-          {/* Erro */}
-          {erro && (
-            <p className="text-red-500 text-sm text-center">{erro}</p>
-          )}
+          <input
+            type="email"
+            placeholder="Digite seu email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-transparent outline-none"
+            style={{ color: "#333" }}
+          />
+        </div>
 
-          {/* Campo email */}
-          <div
-            className="flex items-center gap-3 px-5 py-3 rounded-full"
-            style={{ backgroundColor: "#F5F5F5", border: "1.5px solid #E0E0E0" }}
-          >
-            <span className="text-gray-400 text-lg">👤</span>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-gray-700"
-              style={{ fontSize: "1rem" }}
-            />
-          </div>
+        {/* Campo Senha */}
+        <div
+          className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-2"
+          style={{
+            backgroundColor: "#F8F8F8",
+            border: "1px solid #E5E5E5",
+          }}
+        >
+          <span className="text-lg">🔒</span>
 
-          {/* Campo senha */}
-          <div
-            className="flex items-center gap-3 px-5 py-3 rounded-full"
-            style={{ backgroundColor: "#F5F5F5", border: "1.5px solid #E0E0E0" }}
-          >
-            <span className="text-gray-400 text-lg">🔒</span>
-            <input
-              type="password"
-              placeholder="Senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              className="flex-1 bg-transparent outline-none text-gray-700"
-              style={{ fontSize: "1rem" }}
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Digite sua senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            className="w-full bg-transparent outline-none"
+            style={{ color: "#333" }}
+          />
+        </div>
 
-          {/* Botão entrar */}
+        {/* Esqueci senha */}
+        <div className="text-right mb-6">
           <button
-            onClick={handleLogin}
-            className="w-full py-4 rounded-full text-white font-bold text-lg mt-2"
-            style={{ backgroundColor: "#C0622B" }}
+            className="text-sm font-medium"
+            style={{ color: "#C0622B" }}
           >
-            Entrar
+            Esqueceu a senha?
           </button>
         </div>
+
+        {/* Botão */}
+       <button
+          onClick={handleLogin}
+          className="
+            w-full py-4 rounded-2xl text-white font-bold text-lg
+            transition-all duration-150 ease-out
+            hover:brightness-110
+            active:scale-95
+            active:shadow-inner
+          "
+          style={{
+            backgroundColor: "#C0622B",
+            boxShadow: "0 8px 20px rgba(192, 98, 43, 0.28)",
+          }}
+        >
+        Entrar
+      </button>
+
+        {/* Rodapé */}
+        <p
+          className="text-center text-sm mt-6"
+          style={{ color: "#777" }}
+        >
+          Bem-vindo ao seu app de pedidos 🍽️
+        </p>
       </div>
     </div>
   )
