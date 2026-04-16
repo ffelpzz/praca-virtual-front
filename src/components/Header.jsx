@@ -48,15 +48,17 @@ export default function Header() {
         </div>
 
         <div className="flex flex-col gap-4 text-[#333]">
-          <button className="text-left p-3 rounded-xl bg-[#F5F5F5]">
+          <button className="text-left p-3 rounded-xl bg-[#F5F5F5] active:scale-95 transition-all duration-150">
             👤 Perfil
           </button>
 
-          <button className="text-left p-3 rounded-xl bg-[#F5F5F5]">
+          <button 
+           onClick={() => navigate("/meus-pedidos")}
+           className="text-left p-3 rounded-xl bg-[#F5F5F5] active:scale-95 transition-all duration-150">
             📦 Meus Pedidos
           </button>
 
-          <button className="text-left p-3 rounded-xl bg-[#F5F5F5]">
+          <button className="text-left p-3 rounded-xl bg-[#F5F5F5] active:scale-95 transition-all duration-150">
             ⚙️ Configurações
           </button>
 

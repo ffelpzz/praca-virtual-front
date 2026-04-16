@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom"
 import { useCart } from "../context/CartContext"
 
 export default function CartButton() {
-  const navigate = useNavigate()
-  const { quantidadeTotal } = useCart()
+  const { quantidadeTotal, abrirCarrinho } = useCart()
 
   return (
     <button
-      onClick={() => navigate("/carrinho")}
+      onClick={abrirCarrinho}
       className="relative flex items-center justify-center w-12 h-12 rounded-full"
       style={{ backgroundColor: "#E8D5CC" }}
     >

@@ -37,11 +37,14 @@ export default function AppRoutes() {
             <Restaurante />
           </RotaProtegida>
         } />
-        <Route path="/carrinho" element={
-          <RotaProtegida roles={["cliente"]}>
-            <Carrinho />
-          </RotaProtegida>
-        } />
+        <Route
+          path="/carrinho"
+          element={
+            <RotaProtegida roles={["cliente"]}>
+              <Carrinho />
+            </RotaProtegida>
+          }
+        />
         <Route path="/meus-pedidos" element={
           <RotaProtegida roles={["cliente"]}>
             <MeusPedidos />

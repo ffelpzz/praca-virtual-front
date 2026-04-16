@@ -1,15 +1,17 @@
+import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header"
-import { BottomNav } from "../../components/BottomNav"
+import BottomNav from "../../components/BottomNav"
+import { restaurantes } from "../../mocks/data"
 
 export default function Home() {
-  const restaurantes = []
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] pb-24">
       <Header />
 
-      <main className="px-4 pt-5">
-        <h2 className="text-2xl font-bold text-[#333] mb-1">
+      <main className="px-4 pt-4">
+        <h2 className="text-xl font-bold text-[#333] mb-2">
           Explore Restaurantes
         </h2>
 
@@ -17,30 +19,23 @@ export default function Home() {
           Faça seu pedido sem pegar fila
         </p>
 
-        {restaurantes.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-20 text-center px-6">
-            <div className="text-6xl mb-4">🍽️</div>
+        <div className="space-y-4">
+          {restaurantes.map((restaurante) => (
+            <div
+              key={restaurante.id}
+              onClick={() => navigate(`/restaurante/${restaurante.id}`)}
+              className="bg-[#E8E8E8] rounded-2xl p-4 cursor-pointer active:scale-95 transition-all duration-150"
+            >
+              <h3 className="font-semibold text-[#333]">
+                {restaurante.nome}
+              </h3>
 
-            <h3 className="text-xl font-semibold text-[#333] mb-2">
-              Nenhum restaurante disponível
-            </h3>
-
-            <p className="text-gray-500 text-sm max-w-xs">
-              Em breve novos restaurantes estarão disponíveis para pedidos.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {restaurantes.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-2xl p-4 shadow-sm"
-              >
-                {item.nome}
-              </div>
-            ))}
-          </div>
-        )}
+              <p className="text-sm text-gray-600">
+                {restaurante.aberto ? "Aberto" : "Fechado"}
+              </p>
+            </div>
+          ))}
+        </div>
       </main>
 
       <BottomNav />
