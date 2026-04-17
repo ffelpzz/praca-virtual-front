@@ -1,8 +1,14 @@
+import bk from "../assets/logos/bk.png"
+import mc from "../assets/logos/mc.png"
+import pizza from "../assets/logos/pizza.png"
+import subway from "../assets/logos/subway.png"
+
+
 export const restaurantes = [
-  { id: 1, nome: "Burger King", aberto: true, logo: null },
-  { id: 2, nome: "McDonald's", aberto: true, logo: null },
-  { id: 3, nome: "Pizza Hut", aberto: false, logo: null },
-  { id: 4, nome: "Subway", aberto: true, logo: null },
+  { id: 1, nome: "Burger King", aberto: true, logo: bk },
+  { id: 2, nome: "McDonald's", aberto: true, logo: mc },
+  { id: 3, nome: "Pizza Hut", aberto: false, logo: pizza },
+  { id: 4, nome: "Subway", aberto: true, logo: subway },
 ]
 
 export const categorias = [

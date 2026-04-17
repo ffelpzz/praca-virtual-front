@@ -25,23 +25,40 @@ export default function Home() {
           Faça seu pedido sem pegar fila
         </p>
 
-        <div className="space-y-4">
-          {restaurantes.map((restaurante) => (
-            <div
-              key={restaurante.id}
-              onClick={() => navigate(`/restaurante/${restaurante.id}`)}
-              className="bg-[#E8E8E8] rounded-2xl p-4 cursor-pointer active:scale-95 transition-all duration-150"
-            >
-              <h3 className="font-semibold text-[#333]">
-                {restaurante.nome}
-              </h3>
-
-              <p className="text-sm text-gray-600">
-                {restaurante.aberto ? "Aberto" : "Fechado"}
-              </p>
+        <div className="grid grid-cols-2 gap-4">
+        {restaurantes.map((restaurante) => (
+          <div
+            key={restaurante.id}
+            onClick={() => navigate(`/restaurante/${restaurante.id}`)}
+            className="bg-[#E8E8E8] rounded-2xl aspect-square flex flex-col items-center justify-center cursor-pointer shadow-sm active:scale-95 transition-all duration-150 p-4"
+          >
+            {/* Logo */}
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm p-2">
+              <img
+                src={restaurante.logo}
+                alt={restaurante.nome}
+                className="max-w-full max-h-full object-contain"
+              />
             </div>
-          ))}
-        </div>
+
+            {/* Nome */}
+            <h3 className="mt-3 text-sm font-semibold text-center text-[#333]">
+              {restaurante.nome}
+            </h3>
+
+            {/* Status */}
+            <p
+              className={`mt-1 text-xs font-medium ${
+                restaurante.aberto
+                  ? "text-green-600"
+                  : "text-red-500"
+              }`}
+            >
+              {restaurante.aberto ? "Aberto" : "Fechado"}
+            </p>
+          </div>
+        ))}
+      </div>
       </main>
 
       <BottomNav />

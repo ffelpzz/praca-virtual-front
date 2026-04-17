@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import Header from "../../components/Header"
 import BottomNav from "../../components/BottomNav"
+import ItemCard from "../../components/ItemCard"
 import { restaurantes, itens } from "../../mocks/data"
 
 export default function Restaurante() {
@@ -33,22 +34,11 @@ export default function Restaurante() {
 
         <div className="space-y-4">
           {cardapio.map((item) => (
-            <div
+            <ItemCard
               key={item.id}
-              className="bg-[#E8E8E8] rounded-2xl p-4"
-            >
-              <h3 className="font-semibold text-[#333]">
-                {item.nome}
-              </h3>
-
-              <p className="text-sm text-gray-500">
-                {item.descricao}
-              </p>
-
-              <p className="font-bold text-[#C0622B] mt-2">
-                R$ {item.preco.toFixed(2).replace(".", ",")}
-              </p>
-            </div>
+              item={item}
+              aberto={restaurante.aberto}
+            />
           ))}
         </div>
       </main>

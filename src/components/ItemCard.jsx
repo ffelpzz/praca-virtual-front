@@ -1,6 +1,6 @@
 import { useCart } from "../context/CartContext"
 
-export default function ItemCard({ item }) {
+export default function ItemCard({ item, aberto }) {
   const { adicionarItem } = useCart()
 
   return (
@@ -24,9 +24,15 @@ export default function ItemCard({ item }) {
 
       {/* Botão adicionar */}
       <button
-        onClick={() => adicionarItem(item)}
-        className="w-8 h-8 rounded-full text-white font-bold text-lg flex items-center justify-center"
-        style={{ backgroundColor: "#C0622B" }}>
+        onClick={() => aberto && adicionarItem(item)}
+        disabled={!aberto}
+        className={`w-8 h-8 rounded-full text-white font-bold text-lg flex items-center justify-center transition-all duration-150 ${
+          aberto
+            ? "active:scale-95"
+            : "opacity-50 cursor-not-allowed"
+        }`}
+        style={{ backgroundColor: "#C0622B" }}
+      >
         +
       </button>
     </div>
