@@ -1,10 +1,16 @@
 import { useNavigate } from "react-router-dom"
 import Header from "../../components/Header"
 import BottomNav from "../../components/BottomNav"
-import { restaurantes } from "../../mocks/data"
+import { useEffect, useState } from "react"
+import { listarRestaurantes } from "../../services/restauranteService"
 
 export default function Home() {
   const navigate = useNavigate()
+  const [restaurantes, setRestaurantes] = useState([])
+
+  useEffect(() => {
+    listarRestaurantes().then((data) => setRestaurantes(data))
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#F5F5F5] pb-24">
