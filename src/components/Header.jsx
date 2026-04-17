@@ -14,17 +14,17 @@ export default function Header() {
 
   return (
     <>
-      <header className="bg-[#C0622B] text-white px-4 py-4 rounded-b-3xl shadow-md flex items-center justify-between">
+      <header className="bg-[#C0622B] text-white px-4 py-4 rounded-b-3xl shadow-md relative flex items-center">
         <button
           onClick={() => setMenuOpen(true)}
-          className="text-2xl active:scale-95 transition"
+          className="text-2xl active:scale-95 transition z-10"
         >
           ☰
         </button>
 
-        <h1 className="font-bold text-xl">Praça Virtual 🍴</h1>
-
-        <div className="w-8 h-8 rounded-full bg-white/30"></div>
+        <h1 className="font-bold text-xl absolute left-1/2 -translate-x-1/2">
+          Praça Virtual 🍴
+        </h1>
       </header>
 
       {menuOpen && (
@@ -52,9 +52,10 @@ export default function Header() {
             👤 Perfil
           </button>
 
-          <button 
-           onClick={() => navigate("/meus-pedidos")}
-           className="text-left p-3 rounded-xl bg-[#F5F5F5] active:scale-95 transition-all duration-150">
+          <button
+            onClick={() => navigate("/meus-pedidos")}
+            className="text-left p-3 rounded-xl bg-[#F5F5F5] active:scale-95 transition-all duration-150"
+          >
             📦 Meus Pedidos
           </button>
 

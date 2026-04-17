@@ -3,9 +3,16 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 
 export default function Login() {
+  const [modoCadastro, setModoCadastro] = useState(false)
+
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const [erro, setErro] = useState("")
+
+  const [cpf, setCpf] = useState("")
+  const [nome, setNome] = useState("")
+  const [telefone, setTelefone] = useState("")
+
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -21,6 +28,28 @@ export default function Login() {
     }
   }
 
+  const handleCadastro = () => {
+    if (!cpf || !nome || !email || !telefone || !senha) {
+      setErro("Preencha todos os campos")
+      return
+    }
+
+    setErro("")
+    alert("Cadastro realizado com sucesso (mock)")
+    setModoCadastro(false)
+
+    setCpf("")
+    setNome("")
+    setEmail("")
+    setTelefone("")
+    setSenha("")
+  }
+
+  const estiloInput = {
+    backgroundColor: "#F8F8F8",
+    border: "1px solid #E5E5E5",
+  }
+
   return (
     <div
       className="min-h-screen flex items-center justify-center px-6"
@@ -29,7 +58,7 @@ export default function Login() {
       }}
     >
       <div
-        className="w-full max-w-md rounded-[2.5rem] p-8"
+        className="w-full max-w-md rounded-[2.5rem] px-8 py-6 my-6"
         style={{
           backgroundColor: "#ffffff",
           boxShadow: "0 20px 50px rgba(0,0,0,0.12)",
@@ -54,7 +83,9 @@ export default function Login() {
           </h1>
 
           <p className="text-sm mt-2" style={{ color: "#777" }}>
-            Faça login para continuar
+            {modoCadastro
+              ? "Crie sua conta para continuar"
+              : "Faça login para continuar"}
           </p>
         </div>
 
@@ -71,79 +102,179 @@ export default function Login() {
           </div>
         )}
 
-        {/* Campo Email */}
-        <div
-          className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
-          style={{
-            backgroundColor: "#F8F8F8",
-            border: "1px solid #E5E5E5",
-          }}
-        >
-          <span className="text-lg">👤</span>
+        {modoCadastro ? (
+          <>
+            {/* CPF */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
+              style={estiloInput}
+            >
+              <span>🪪</span>
+              <input
+                type="text"
+                placeholder="Digite seu CPF"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
 
-          <input
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-transparent outline-none"
-            style={{ color: "#333" }}
-          />
-        </div>
+            {/* Nome */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
+              style={estiloInput}
+            >
+              <span>👤</span>
+              <input
+                type="text"
+                placeholder="Digite seu nome"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
 
-        {/* Campo Senha */}
-        <div
-          className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-2"
-          style={{
-            backgroundColor: "#F8F8F8",
-            border: "1px solid #E5E5E5",
-          }}
-        >
-          <span className="text-lg">🔒</span>
+            {/* Email */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
+              style={estiloInput}
+            >
+              <span>📧</span>
+              <input
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
 
-          <input
-            type="password"
-            placeholder="Digite sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            className="w-full bg-transparent outline-none"
-            style={{ color: "#333" }}
-          />
-        </div>
+            {/* Telefone */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
+              style={estiloInput}
+            >
+              <span>📱</span>
+              <input
+                type="text"
+                placeholder="Digite seu telefone"
+                value={telefone}
+                onChange={(e) => setTelefone(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
 
-        {/* Esqueci senha */}
-        <div className="text-right mb-6">
-          <button
-            className="text-sm font-medium"
-            style={{ color: "#C0622B" }}
-          >
-            Esqueceu a senha?
-          </button>
-        </div>
+            {/* Senha */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-6"
+              style={estiloInput}
+            >
+              <span>🔒</span>
+              <input
+                type="password"
+                placeholder="Crie uma senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
 
-        {/* Botão */}
-       <button
-          onClick={handleLogin}
-          className="
-            w-full py-4 rounded-2xl text-white font-bold text-lg
-            transition-all duration-150 ease-out
-            hover:brightness-110
-            active:scale-95
-            active:shadow-inner
-          "
-          style={{
-            backgroundColor: "#C0622B",
-            boxShadow: "0 8px 20px rgba(192, 98, 43, 0.28)",
-          }}
-        >
-        Entrar
-      </button>
+            <button
+              onClick={handleCadastro}
+              className="w-full py-4 rounded-2xl text-white font-bold text-lg transition-all duration-150 hover:brightness-110 active:scale-95"
+              style={{
+                backgroundColor: "#C0622B",
+                boxShadow: "0 8px 20px rgba(192, 98, 43, 0.28)",
+              }}
+            >
+              Cadastrar
+            </button>
 
-        {/* Rodapé */}
-        <p
-          className="text-center text-sm mt-6"
-          style={{ color: "#777" }}
-        >
+            <p className="text-center text-sm mt-5 text-[#777]">
+              Já tem conta?{" "}
+              <button
+                onClick={() => {
+                  setErro("")
+                  setModoCadastro(false)
+                }}
+                className="font-semibold"
+                style={{ color: "#C0622B" }}
+              >
+                Entrar
+              </button>
+            </p>
+          </>
+        ) : (
+          <>
+            {/* Email */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-4"
+              style={estiloInput}
+            >
+              <span className="text-lg">👤</span>
+
+              <input
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
+
+            {/* Senha */}
+            <div
+              className="flex items-center gap-3 px-5 py-4 rounded-2xl mb-2"
+              style={estiloInput}
+            >
+              <span className="text-lg">🔒</span>
+
+              <input
+                type="password"
+                placeholder="Digite sua senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full bg-transparent outline-none"
+              />
+            </div>
+
+            <div className="text-right mb-6">
+              <button
+                className="text-sm font-medium"
+                style={{ color: "#C0622B" }}
+              >
+                Esqueceu a senha?
+              </button>
+            </div>
+
+            <button
+              onClick={handleLogin}
+              className="w-full py-4 rounded-2xl text-white font-bold text-lg transition-all duration-150 hover:brightness-110 active:scale-95 active:shadow-inner"
+              style={{
+                backgroundColor: "#C0622B",
+                boxShadow: "0 8px 20px rgba(192, 98, 43, 0.28)",
+              }}
+            >
+              Entrar
+            </button>
+
+            <p className="text-center text-sm mt-5 text-[#777]">
+              Não tem conta?{" "}
+              <button
+                onClick={() => {
+                  setErro("")
+                  setModoCadastro(true)
+                }}
+                className="font-semibold"
+                style={{ color: "#C0622B" }}
+              >
+                Cadastre-se
+              </button>
+            </p>
+          </>
+        )}
+
+        <p className="text-center text-sm mt-6" style={{ color: "#777" }}>
           Bem-vindo ao seu app de pedidos 🍽️
         </p>
       </div>
