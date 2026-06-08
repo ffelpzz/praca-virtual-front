@@ -44,11 +44,10 @@ export default function Header() {
 
       {/* Menu lateral */}
       <div
-        className={`fixed top-0 left-0 h-full w-72 bg-[#1E1E1E] z-50 shadow-xl p-5 transition-all duration-300 ${
-          menuOpen
+        className={`fixed top-0 left-0 h-full w-72 bg-[#1E1E1E] z-50 shadow-xl p-5 transition-all duration-300 ${menuOpen
             ? "translate-x-0 opacity-100"
             : "-translate-x-full opacity-0"
-        }`}
+          }`}
       >
         {/* Topo */}
         <div className="flex items-center justify-between mb-8">
@@ -67,11 +66,11 @@ export default function Header() {
 
           {/* Perfil */}
           <button
-            className={`text-left p-3 rounded-xl transition-all duration-150 ${
-              isActive("/perfil")
+            onClick={() => { navigate("/perfil"); setMenuOpen(false) }}
+            className={`text-left p-3 rounded-xl transition-all duration-150 ${isActive("/perfil")
                 ? "bg-[#3B82F6]/20 text-[#3B82F6]"
                 : "bg-[#2A2A2A] text-white hover:bg-[#333]"
-            }`}
+              }`}
           >
             👤 Perfil
           </button>
@@ -79,22 +78,20 @@ export default function Header() {
           {/* Meus Pedidos */}
           <button
             onClick={() => navigate("/meus-pedidos")}
-            className={`text-left p-3 rounded-xl transition-all duration-150 ${
-              isActive("/meus-pedidos")
+            className={`text-left p-3 rounded-xl transition-all duration-150 ${isActive("/meus-pedidos")
                 ? "bg-[#3B82F6]/20 text-[#3B82F6]"
                 : "bg-[#2A2A2A] text-white hover:bg-[#333]"
-            }`}
+              }`}
           >
             📦 Meus Pedidos
           </button>
 
           {/* Configurações */}
           <button
-            className={`text-left p-3 rounded-xl transition-all duration-150 ${
-              isActive("/configuracoes")
+            className={`text-left p-3 rounded-xl transition-all duration-150 ${isActive("/configuracoes")
                 ? "bg-[#3B82F6]/20 text-[#3B82F6]"
                 : "bg-[#2A2A2A] text-white hover:bg-[#333]"
-            }`}
+              }`}
           >
             ⚙️ Configurações
           </button>

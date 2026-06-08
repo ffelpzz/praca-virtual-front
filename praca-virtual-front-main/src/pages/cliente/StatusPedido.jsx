@@ -1,4 +1,4 @@
-// src/pages/cliente/StatusPedido.jsx — tela de acompanhamento do pedido (NOVA)
+// src/pages/cliente/StatusPedido.jsx
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import Header from "../../components/Header"
@@ -6,9 +6,9 @@ import api from "../../services/api"
 
 const etapas = [
   { status: "AGUARDANDO", label: "Aguardando confirmação", emoji: "⏳" },
-  { status: "EM_PREPARO",  label: "Em preparo",             emoji: "👨‍🍳" },
-  { status: "PRONTO",      label: "Pronto para retirada",   emoji: "✅" },
-  { status: "RETIRADO",    label: "Retirado",               emoji: "🎉" },
+  { status: "EM_PREPARO", label: "Em preparo", emoji: "👨‍🍳" },
+  { status: "PRONTO", label: "Pronto para retirada", emoji: "✅" },
+  { status: "RETIRADO", label: "Retirado", emoji: "🎉" },
 ]
 
 const ordemStatus = { AGUARDANDO: 0, EM_PREPARO: 1, PRONTO: 2, RETIRADO: 3 }
@@ -18,20 +18,36 @@ export default function StatusPedido() {
   const navigate = useNavigate()
   const [pedido, setPedido] = useState(null)
   const [carregando, setCarregando] = useState(true)
+  const [confirmandoChegada, setConfirmandoChegada] = useState(false)
+  const [chegadaConfirmada, setChegadaConfirmada] = useState(false)
 
   const buscarPedido = () => {
     api.get(`/pedidos/${id}`)
       .then((res) => setPedido(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setCarregando(false))
   }
 
   useEffect(() => {
     buscarPedido()
-    // Polling: atualiza o status a cada 10 segundos
-    const intervalo = setInterval(buscarPedido, 10000)
+    //atualiza o status a cada 30 segundos
+    const intervalo = setInterval(buscarPedido, 30000)
     return () => clearInterval(intervalo)
   }, [id])
+
+  const handleChegueiAoRestaurante = async () => {
+    setConfirmandoChegada(true)
+    try {
+      // Avança o status para RETIRADO (confirma que o cliente chegou e retirou)
+      await api.patch(`/pedidos/${id}/status`, { status: "RETIRADO" })
+      setChegadaConfirmada(true)
+      buscarPedido() // atualiza a tela
+    } catch {
+      alert("Erro ao confirmar chegada. Tente novamente.")
+    } finally {
+      setConfirmandoChegada(false)
+    }
+  }
 
   if (carregando) {
     return (
@@ -50,6 +66,8 @@ export default function StatusPedido() {
   }
 
   const indiceAtual = ordemStatus[pedido.status] ?? 0
+  const pedidoPronto = pedido.status === "PRONTO"
+  const pedidoRetirado = pedido.status === "RETIRADO"
 
   return (
     <div className="min-h-screen bg-[#121212] text-white pb-10">
@@ -93,7 +111,34 @@ export default function StatusPedido() {
           })}
         </div>
 
-        {/* Itens do pedido */}
+        {/* Botão Cheguei ao Restaurante . att: aparece só quando pedido está como PRONTO */}
+        {pedidoPronto && !chegadaConfirmada && (
+          <div className="mb-6 rounded-2xl bg-green-500/10 border border-green-500/30 p-4 flex flex-col items-center gap-3">
+            <span className="text-3xl">📍</span>
+            <p className="text-green-400 font-bold text-center">Seu pedido está pronto!</p>
+            <p className="text-gray-400 text-sm text-center">
+              Dirija-se ao restaurante e confirme sua chegada ao retirar o pedido.
+            </p>
+            <button
+              onClick={handleChegueiAoRestaurante}
+              disabled={confirmandoChegada}
+              className="w-full py-4 rounded-full text-white font-bold text-base bg-green-500 hover:bg-green-400 active:scale-95 transition-all duration-150 disabled:opacity-90 shadow-lg shadow-green-500/20"
+            >
+              {confirmandoChegada ? "Confirmando..." : "📍 Cheguei ao Restaurante"}
+            </button>
+          </div>
+        )}
+
+        {/* Confirmar chegada */}
+        {(chegadaConfirmada || pedidoRetirado) && (
+          <div className="mb-6 rounded-2xl bg-[#1E1E1E] border border-green-500/20 p-4 flex flex-col items-center gap-2">
+            <span className="text-3xl">🎉</span>
+            <p className="text-green-400 font-bold text-center">Chegada confirmada!</p>
+            <p className="text-gray-400 text-sm text-center">Obrigado por usar o aplicativo. Bom apetite!</p>
+          </div>
+        )}
+
+        {/* Itens pedido */}
         <div className="rounded-2xl bg-[#1E1E1E] p-4 mb-6">
           <h3 className="font-bold text-white mb-3">Itens do pedido</h3>
           <div className="flex flex-col gap-2">

@@ -9,6 +9,7 @@ import Carrinho from "../pages/cliente/Carrinho"
 import MeusPedidos from "../pages/cliente/MeusPedidos"
 import Restaurante from "../pages/cliente/Restaurante"
 import StatusPedido from "../pages/cliente/StatusPedido"
+import Perfil from "../pages/cliente/Perfil"
 
 // Painel restaurante (inclui abas Pedidos + Cardápio)
 import PainelRestaurante from "../pages/restaurante/PainelRestaurante"
@@ -80,6 +81,12 @@ export default function AppRoutes() {
       <Route path="/admin/usuarios" element={
         <RotaProtegida roles={["admin", "ADMIN"]}>
           <AdminUsuarios />
+        </RotaProtegida>
+      } />
+
+      <Route path="/perfil" element={
+        <RotaProtegida roles={["cliente"]}>
+          <Perfil />
         </RotaProtegida>
       } />
     </Routes>
